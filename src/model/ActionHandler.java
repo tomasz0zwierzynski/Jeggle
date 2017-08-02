@@ -5,26 +5,20 @@ import java.util.Random;
 public class ActionHandler implements GameProcessor{
 
 	Ball ball;
-	Newton newton;
 	
 	Engine parent;
 	
 	public ActionHandler(Engine par){
-		newton = new Newton();
 		parent = par;
-		prepareBall();
+		ball = new Ball();
 	}
 	
 	@Override
 	public void process() {
-		
-		if (newton.isAlive()){
-			newton.nextStep();
-		}else{
-			prepareBall();
-			parent.ballFellDown();
+		ball = Newton.nextStep(ball);
+		if (ball == null){
+			parent.changeState(GameState.Aiming);
 		}
-		
 	}	
 	
 	public void nextBall(Ball b){
@@ -35,8 +29,11 @@ public class ActionHandler implements GameProcessor{
 		return ball;
 	}
 	
-	public void prepareBall(){
-		newton.nextBall(ball);
+
+	@Override
+	public void input(InputData in) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

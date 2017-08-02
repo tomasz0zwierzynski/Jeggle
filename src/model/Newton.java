@@ -4,44 +4,30 @@
 
 package model;
 
-public class Newton {
-	
-	private Ball ball;
-	private boolean alive;
-	
-	public Newton(){
-		ball = null;
-		alive = false;
-	}
-	
+public final class Newton {
 		
+	private static Ball ball;
+	
 	//Here whole magic will happen
-	public void nextStep(){
+	public static Ball nextStep(Ball b){
+		ball = b;
 		//TODO: here call checking function
 		//		then call correct movement function
 		
 		//Check if ball has fallen down the screen.
 		if (hasFallenDown())
-			return;
-		//Check if ball hit side boundry
+			return null;
 		
+		//Check if ball hit side boundry
 		if (hasHitSideWall())
 			boundry();
 		else	
 			freefall();
 		
+		return ball;
 	}
 	
-	public void nextBall(Ball b){
-		ball = b;
-		alive = true;
-	}
-
-	public boolean isAlive(){
-		return alive;
-	}	
-	
-	private void freefall(){
+	private static void freefall(){
 		
 		//	System.out.println("freefall(), ball= " + ball.toString());
 		double new_Vx = ball.getVx();
@@ -50,10 +36,10 @@ public class Newton {
 		int new_y = (int) (ball.getY() + Math.round(new_Vy*Const.GAME_DELAY_MS));
 		
 		//System.out.println(ball.toString());
-		ball.setBall(new_x, new_y,new_Vx , new_Vy);		
+		ball.setBall(new_x, new_y,new_Vx , new_Vy);
 	}
 	
-	private void boundry(){
+	private static void boundry(){
 		
 		//	System.out.println("boundry(), ball= " + ball.toString());
 		double new_Vx = -ball.getVx()*Const.BOUNCE_FACTOR;
@@ -65,21 +51,19 @@ public class Newton {
 		ball.setBall(new_x, new_y,new_Vx , new_Vy);
 	}
 	
-	private void pegCheck(){
+	private static void pegCheck(){
 		
 	}
 	
-	private boolean hasFallenDown(){
+	private static boolean hasFallenDown(){
 		boolean value = false;
 		if (ball.getY()>Const.BOARD_ENGINE_HEIGHT){			
-			alive = false;
-			ball = null;
 			value = true;
 		}
 		return value;
 	}
 	
-	private boolean hasHitSideWall(){
+	private static boolean hasHitSideWall(){
 		boolean value = false;
 		if( ball.getX() < 0 ){
 			//Set ball to boundry to ensure it will escape

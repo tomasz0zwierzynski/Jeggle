@@ -24,10 +24,11 @@ import view.ScreenMetrics;
 public class Engine implements ActionListener {
 
 	private Timer timer;
-	private GameState currentState;
 	private AimingHandler hAiming;
 	private ActionHandler hAction;
+	
 	private GameProcessor hCurrentHandler;	
+	private GameState currentState;
 	
 	private List<GameLoopListener> graphicUpdaters = new ArrayList<GameLoopListener>();
 		
@@ -36,13 +37,13 @@ public class Engine implements ActionListener {
 		timer = new Timer(Const.GAME_DELAY_MS,this);
 
 		hAction = new ActionHandler(this);	
-		hAiming = new AimingHandler(this);
+		hAiming = new AimingHandler(this,hAction);
 	}
 	
 	//Game loop takes place here, when timer posts action.
 	@Override
 	public void actionPerformed(ActionEvent arg) {
-		gameLoop();		
+		gameLoop();
 	}
 		
 	private void gameLoop(){
@@ -56,11 +57,8 @@ public class Engine implements ActionListener {
 	
 	private void update(){
 		
-		if (currentState == GameState.Aiming)
-			hAiming.process();
-		else if (currentState == GameState.Action)
-			hAction.process();
-		
+		hCurrentHandler.process();
+			
 	}
 	
 	public void redraw(){
@@ -70,42 +68,40 @@ public class Engine implements ActionListener {
 	}
 	
 	public void processInputData(InputData id){
-		
-		if (currentState == GameState.Aiming){
-		
-			switch (id.getMouseEventType()){
-			case Moved:
-				break;
-			case Pressed:
-				System.out.println("Pressed");
-				break;
-			case Released:
-				System.out.println("Released");
-				break;
-			case Clicked:
-				int arg = id.getEngiX();
-				double angle = ScreenMetrics.map(arg, 0, Const.BOARD_ENGINE_WIDTH, -120, +120);			
-				hAction.nextBall(new Ball(Const.BOARD_ENGINE_WIDTH / 2,2000, angle));
-				hAction.prepareBall();
-				currentState = GameState.Action;
+
+		hCurrentHandler.input(id);		
 				
-				break;
-			default:
-			
-				break;
-			}
-		}
-		
 	}
 	
+	//Method called when gameLoop has to start.
 	public void start(){
 		timer.start();
 		
 		currentState = GameState.Aiming;
+		hCurrentHandler = hAiming;
 	}
 	
+	/*
 	public void ballFellDown(){
 		currentState = GameState.Aiming;
+	}
+	*/
+	
+	public void changeState(GameState gs){
+		currentState = gs;
+		hCurrentHandler = handlerFromGameState(gs);		
+	}
+	
+	private GameProcessor handlerFromGameState(GameState gs){
+		switch (gs){
+		case Aiming:
+			return hAiming;
+		case Action:
+			return hAction;
+		default:
+			return null;
+		}
+		//and so on...
 	}
 	
 	//TEMP
