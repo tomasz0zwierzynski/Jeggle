@@ -1,6 +1,7 @@
 package model;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActionHandler implements GameProcessor{
 
@@ -34,6 +35,13 @@ public class ActionHandler implements GameProcessor{
 	public void input(InputData in) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<Drawable> getDrawables() {
+		List<Drawable> list = new ArrayList<Drawable>();
+		list.add(ball);
+		return list;
 	}
 	
 }

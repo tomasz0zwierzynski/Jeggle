@@ -17,6 +17,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -25,9 +26,9 @@ import model.*;
 @SuppressWarnings("serial")
 public class MainPanel extends JPanel{
 
-	//private Engine engine;
 	//For example this component only take care about square so:
 	Ball b;	
+	List<Drawable> toDraw;
 	
 	public MainPanel(){
 		super();
@@ -43,19 +44,23 @@ public class MainPanel extends JPanel{
 		g.fillRect(0, 0, (int)dim.getWidth(), (int)dim.getHeight());
 		
 		g.setColor(Color.cyan);
-		try{
-			Dimension screen_dim = ScreenMetrics.Map( this, new Dimension( b.getX(), b.getY() ) );
-			Dimension ball_dim = ScreenMetrics.Map( this, new Dimension( b.RADIUS, b.RADIUS ) );
-			g.fillOval((int)screen_dim.getWidth(),(int)screen_dim.getHeight(), (int)ball_dim.getWidth(),(int)ball_dim.getHeight());
-		}catch(Exception ex){
-			System.out.println("Warning: Uncompleted MainPanel when screen is refreshing:");
-		}
+		
+		for (Drawable d : toDraw){
+			try{
+				Dimension screen_dim = ScreenMetrics.Map( this, new Dimension( d.getX(), d.getY() ) );
+				Dimension ball_dim = ScreenMetrics.Map( this, new Dimension( Ball.RADIUS, Ball.RADIUS ) );
+				g.fillOval((int)screen_dim.getWidth(),(int)screen_dim.getHeight(), (int)ball_dim.getWidth(),(int)ball_dim.getHeight());
+			}catch(Exception ex){
+				System.out.println("Warning: null pointer reference");
+			}
+		}		
 	}
 	
 	//TODO it will be in every child JPanel so interface is to made
 	public void updateGraphicalContent(Engine en){
-		b = en.getBall();		
-		repaint();
+		//b = en.getBall();		
+		toDraw = en.getDrawables();
+		repaint();			
 	}
 	
 }

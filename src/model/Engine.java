@@ -92,6 +92,10 @@ public class Engine implements ActionListener {
 		hCurrentHandler = handlerFromGameState(gs);		
 	}
 	
+	public List<Drawable> getDrawables(){
+		return hCurrentHandler.getDrawables();
+	}
+	
 	private GameProcessor handlerFromGameState(GameState gs){
 		switch (gs){
 		case Aiming:

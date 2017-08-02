@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import view.ScreenMetrics;
 
 public class AimingHandler implements GameProcessor {
@@ -39,8 +42,12 @@ public class AimingHandler implements GameProcessor {
 		default:
 		
 			break;
-		}
-		
+		}	
+	}
+	
+	@Override
+	public List<Drawable> getDrawables() {
+		return new ArrayList<Drawable>();
 	}
 
 }
