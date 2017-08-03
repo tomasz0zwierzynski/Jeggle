@@ -2,7 +2,7 @@
  * Class that represents pegs positions on level.
  */
 
-package model;
+package model.drawable;
 
 /**
  * 

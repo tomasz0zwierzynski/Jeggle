@@ -16,6 +16,8 @@ package view;
 import javax.swing.*;
 
 import model.*;
+import model.listeners.GameLoopListener;
+import model.listeners.MouseEventListener;
 
 @SuppressWarnings("serial")
 public class MainWnd extends JFrame implements GameLoopListener{

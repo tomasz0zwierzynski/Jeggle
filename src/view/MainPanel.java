@@ -22,6 +22,8 @@ import java.util.List;
 import javax.swing.*;
 
 import model.*;
+import model.drawable.Ball;
+import model.drawable.Drawable;
 
 @SuppressWarnings("serial")
 public class MainPanel extends JPanel{
@@ -47,8 +49,10 @@ public class MainPanel extends JPanel{
 		
 		for (Drawable d : toDraw){
 			try{
+				Color color = d.getColor();
+				g.setColor(color);
 				Dimension screen_dim = ScreenMetrics.Map( this, new Dimension( d.getX(), d.getY() ) );
-				Dimension ball_dim = ScreenMetrics.Map( this, new Dimension( Ball.RADIUS, Ball.RADIUS ) );
+				Dimension ball_dim = ScreenMetrics.Map( this, new Dimension( d.getDiameter(), d.getDiameter() ) );
 				g.fillOval((int)screen_dim.getWidth(),(int)screen_dim.getHeight(), (int)ball_dim.getWidth(),(int)ball_dim.getHeight());
 			}catch(Exception ex){
 				System.out.println("Warning: null pointer reference");

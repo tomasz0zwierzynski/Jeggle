@@ -1,6 +1,9 @@
-package model;
+package model.handler;
 
 import java.util.List;
+
+import model.drawable.Drawable;
+import model.type.InputData;
 
 public interface GameProcessor {
 	

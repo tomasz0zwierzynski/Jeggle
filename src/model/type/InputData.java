@@ -1,7 +1,8 @@
-package model;
+package model.type;
 
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
+
 
 public class InputData{
 	private MouseEventType mouseEventType;	

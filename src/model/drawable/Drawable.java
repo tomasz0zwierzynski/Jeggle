@@ -1,4 +1,6 @@
-package model;
+package model.drawable;
+
+import java.awt.Color;
 
 public class Drawable {
 
@@ -12,6 +14,8 @@ public class Drawable {
 	protected int diameter;
 	protected int width;
 	protected int height;
+	
+	protected Color color;
 	
 	public Drawable(int _pos_x, int _pos_y, int _diameter){
 		pos_x = _pos_x;
@@ -46,6 +50,22 @@ public class Drawable {
 	}
 	public void setY(int y){
 		pos_y = y;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	public int getDiameter() {
+		return diameter;
+	}
+
+	public void setDiameter(int diameter) {
+		this.diameter = diameter;
 	}
 	
 }

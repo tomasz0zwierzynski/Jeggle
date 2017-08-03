@@ -1,4 +1,4 @@
-package model;
+package model.listeners;
 
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
@@ -6,6 +6,10 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JPanel;
+
+import model.Engine;
+import model.type.InputData;
+import model.type.MouseEventType;
 
 import view.ScreenMetrics;
 
