@@ -25,7 +25,7 @@ public class GameBoard {
 	public GameBoard(){
 		pegs = new ArrayList<Peg>();
 
-		generateGrid(4,4);
+		generateGrid(12,12);
 	}
 	
 	public List<Drawable> getDrawables(){

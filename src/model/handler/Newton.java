@@ -66,42 +66,52 @@ public final class Newton {
 	
 	//TODO: Have a loop for which angles bounce is fucked up and write special cases for it (where transformation is not needed)
 	private static void collision(){
-		//Not math again...
-		double r = Ball.RADIUS * 0.5;
-		double R = Peg.RADIUS * 0.5;
-		double xb = ball.getX()+r;
-		double yb = ball.getY()+r;
-		double xp = (double)collisionPeg.getX()+R;
-		double yp = (double)collisionPeg.getY()+R;
-		
-		double argX = xb - xp;
-		double argY = yb - yp;
-		//Calculating collision angle
-		double theta = Math.atan2(argY,argX);
-		
-		//Transformating velocity vector
+		//Geometry
+		double r = Ball.DIAMETER * 0.5;
+		double R = Peg.DIAMETER * 0.5;
+		double xb = ball.getX()+r;					//x pos. of ball center
+		double yb = ball.getY()+r;					//y pos. of ball center
+		double xp = (double)collisionPeg.getX()+R;	//x pos. of peg center
+		double yp = (double)collisionPeg.getY()+R;	//y pos. of peg center
+		//Velocities
 		double Vx = ball.getVx();
 		double Vy = ball.getVy();
+		//Shift Screen XY to XY (roteted by 180 deg in respect to X)
+		yb = Const.BOARD_ENGINE_HEIGHT - yb;
+		yp = Const.BOARD_ENGINE_HEIGHT - yp;
+		Vy = -Vy; 			//it's just derivative of dyb/dt
+		//shift coords to center of peg, so angle will be simple atan2(y,x) 
+		double argX = xb - xp;
+		double argY = yb - yp;
+		//Calculating collision angle in normal "mathematical" XY
+		double theta = -Math.atan2(argY,argX);
+
+		//Transforming velocity vector
 		double VxT = Vx * Math.cos(theta) - Vy * Math.sin(theta);
 		double VyT = Vx * Math.sin(theta) + Vy * Math.cos(theta);
 		
-		//Calculating new velocities in transfored frame which is simple there
-		double new_VxT = VxT * Const.BOUNCE_FACTOR;
-		double new_VyT = -VyT * Const.BOUNCE_FACTOR;
+		//Calculating new velocities in transformed frame which is simple there
+		double new_VxT = -VxT * Const.BOUNCE_FACTOR;
+		double new_VyT = VyT * Const.BOUNCE_FACTOR;
 		
-		//Transforming back to original frame
-		double new_Vx = new_VxT * Math.cos(theta) + new_VyT * Math.sin(theta);
-		double new_Vy = - new_VxT * Math.sin(theta) + new_VyT * Math.cos(theta);
+		//Transforming back to original "math" frame
+		double theta2 = -theta;
+		double new_Vx = new_VxT * Math.cos(theta2) - new_VyT * Math.sin(theta2);
+		double new_Vy = new_VxT * Math.sin(theta2) + new_VyT * Math.cos(theta2);
 		
+		//Coming back to graphical frame
+		new_Vy = -new_Vy;
+		yb = Const.BOARD_ENGINE_HEIGHT - yb;
+		yp = Const.BOARD_ENGINE_HEIGHT - yp;
+
 		//Correcting ball position to ensure it bounce only once
-		ball.setX((int) (xp+(R+r)*Math.cos(theta)-r));
-		ball.setY((int) (yp+(R+r)*Math.sin(theta)-r));
+		ball.setX((int) (xp+(R+r+Const.PEG_COLLISION_OFFSET)*Math.cos(-theta2)-r));
+		ball.setY((int) (yp+(R+r+Const.PEG_COLLISION_OFFSET)*Math.sin(-theta2)-r));
 		
 		//Calculating next step:
 		int new_x = (int) (ball.getX() + Math.round(new_Vx*Const.GAME_DELAY_MS));
 		int new_y = (int) (ball.getY() + Math.round(new_Vy*Const.GAME_DELAY_MS));
 		
-		//System.out.println(ball.toString());
 		ball.setBall(new_x, new_y,new_Vx , new_Vy);
 		
 	}
@@ -111,8 +121,8 @@ public final class Newton {
 		boolean value = false;
 		for (Peg peg : gameBoard.getPegs()){
 			//do some math...
-			double r = Ball.RADIUS * 0.5;
-			double R = Peg.RADIUS * 0.5;
+			double r = Ball.DIAMETER * 0.5;
+			double R = Peg.DIAMETER * 0.5;
 			double xb = ball.getX()+r;
 			double yb = ball.getY()+r;
 			double xp = (double)peg.getX()+R;
@@ -142,10 +152,10 @@ public final class Newton {
 			ball.setX(0);
 			value = true;
 		}
-		if( ball.getX() > Const.BOARD_ENGINE_WIDTH - ball.RADIUS ){
+		if( ball.getX() > Const.BOARD_ENGINE_WIDTH - ball.DIAMETER ){
 			value = true;
 			//Set ball to boundry to ensure it will escape
-			ball.setX( Const.BOARD_ENGINE_WIDTH - ball.RADIUS );
+			ball.setX( Const.BOARD_ENGINE_WIDTH - ball.DIAMETER );
 		}		
 		return value;
 	}	

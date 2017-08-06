@@ -61,9 +61,12 @@ public class Engine implements ActionListener {
 	}
 		
 	private void gameLoop(){
+		//System.out.println("Update();");
 		update();
-		if ((computeMultiplierCounter++ % Const.COMPUTE_MULTIPLIER) == 0)
+		if ((computeMultiplierCounter++ % Const.COMPUTE_MULTIPLIER) == 0){
+			//System.out.println("Redraw();");
 			redraw();
+		}
 	}
 	
 	public void addGraphicListener(GameLoopListener toAdd){
