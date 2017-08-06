@@ -8,9 +8,13 @@ package model;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import model.drawable.Drawable;
 import model.drawable.Peg;
+import model.drawable.PegConfiguration;
+import model.type.PegState;
+import model.type.PegType;
 
 /**
  * 
@@ -22,10 +26,16 @@ public class GameBoard {
 	
 	private List<Peg> pegs;
 	
+	//Default constructor generates basic peg grid
 	public GameBoard(){
 		pegs = new ArrayList<Peg>();
-
 		generateGrid(12,12);
+		initializePegs();
+	}
+	
+	public GameBoard(PegConfiguration pg){
+		pegs = pg.getPegs();
+		initializePegs();		
 	}
 	
 	public List<Drawable> getDrawables(){
@@ -38,6 +48,29 @@ public class GameBoard {
 	
 	public List<Peg> getPegs(){
 		return pegs;
+	}
+	
+	public void pegTouched(Peg peg){
+		int temp = pegs.indexOf(peg);
+		System.out.println("peg touched: " + temp);
+		peg.setState(PegState.Checked);
+	}
+	
+	//Pegs have to be colorized etc.
+	private void initializePegs(){
+		for(Peg p:pegs){
+			p.setType(PegType.Blue);
+		}
+		Random rnd = new Random();
+		int pegCount = pegs.size();
+		for(int i=0; i<10; i++){
+			int index;
+			do{
+				index = rnd.nextInt(pegCount);
+			}while(pegs.get(index).getType() == PegType.Orange);		
+			
+			pegs.get(index).setType(PegType.Orange);
+		}
 	}
 	
 	private void generateGrid(int rows, int columns){

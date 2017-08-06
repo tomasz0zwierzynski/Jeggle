@@ -55,7 +55,7 @@ public final class Newton {
 	private static void boundry(){
 		
 		//	System.out.println("boundry(), ball= " + ball.toString());
-		double new_Vx = -ball.getVx()*Const.BOUNCE_FACTOR;
+		double new_Vx = -ball.getVx()*Const.BOUNDRY_BOUNCE_FACTOR;
 		double new_Vy = ball.getVy() + (Const.GRAVITY*Const.GAME_DELAY_MS);
 		int new_x = (int) (ball.getX() + Math.round(new_Vx*Const.GAME_DELAY_MS));
 		int new_y = (int) (ball.getY() + Math.round(new_Vy*Const.GAME_DELAY_MS));
@@ -91,8 +91,8 @@ public final class Newton {
 		double VyT = Vx * Math.sin(theta) + Vy * Math.cos(theta);
 		
 		//Calculating new velocities in transformed frame which is simple there
-		double new_VxT = -VxT * Const.BOUNCE_FACTOR;
-		double new_VyT = VyT * Const.BOUNCE_FACTOR;
+		double new_VxT = -VxT * Const.PEG_BOUNCE_FACTOR;
+		double new_VyT = VyT * Const.PEG_BOUNCE_FACTOR;
 		
 		//Transforming back to original "math" frame
 		double theta2 = -theta;
@@ -131,6 +131,7 @@ public final class Newton {
 			double dist = Math.sqrt(Math.pow((xp-xb), 2)+Math.pow((yp-yb), 2));
 			if (dist < (R + r)){
 				value = true;
+				gameBoard.pegTouched(peg);
 				collisionPeg = peg;
 			}
 		}

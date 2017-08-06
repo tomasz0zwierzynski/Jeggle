@@ -1,5 +1,7 @@
 package model.drawable;
 
+import java.awt.Color;
+
 import model.type.PegState;
 import model.type.PegType;
 
@@ -22,6 +24,16 @@ public class Peg extends Drawable{
 
 	public void setState(PegState state) {
 		this.state = state;
+		switch(state){
+		case Checked:
+			if (type==PegType.Blue){
+				this.color = Color.lightGray;
+			}else if (type == PegType.Orange){
+				this.color = Color.yellow;
+			}
+			break;
+		
+		}
 	}
 
 	public PegType getType() {
@@ -30,6 +42,23 @@ public class Peg extends Drawable{
 
 	public void setType(PegType type) {
 		this.type = type;
+		switch(type){
+		case Blue:
+			this.color = Color.blue;
+			break;
+		case Orange:
+			this.color = Color.orange;
+			break;
+		case Green:
+			this.color = Color.green;
+			break;
+		case Pink:
+			this.color = Color.pink;
+			break;
+			default:
+				this.color = Color.gray;
+				break;
+		}
 	}
 	
 }

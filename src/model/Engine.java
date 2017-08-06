@@ -5,6 +5,7 @@
 
 package model;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import javax.swing.Timer;
 
 import model.drawable.Ball;
 import model.drawable.Drawable;
+import model.drawable.PegConfiguration;
 import model.handler.ActionHandler;
 import model.handler.AimingHandler;
 import model.handler.GameProcessor;
@@ -89,8 +91,9 @@ public class Engine implements ActionListener {
 	
 	//Method called when gameLoop has to start.
 	public void start(){
-		//Creating Scene with pegs
-		gameBoard = new GameBoard();		
+		//Creating Scene with pegs (here loading from file or smth)
+		PegConfiguration level = new PegConfiguration();
+		gameBoard = new GameBoard(level);		
 		
 		//Starting game timer to update and draw in loop
 		timer.start();

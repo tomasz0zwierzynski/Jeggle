@@ -47,6 +47,7 @@ public class MainPanel extends JPanel{
 		
 		g.setColor(Color.cyan);
 		
+		try{
 		for (Drawable d : toDraw){
 			try{
 				Color color = d.getColor();
@@ -57,7 +58,10 @@ public class MainPanel extends JPanel{
 			}catch(Exception ex){
 				System.out.println("Warning: null pointer reference");
 			}
-		}		
+		}
+		}catch(Exception ex){
+			System.out.println("Exception cought ;)");
+		}
 	}
 	
 	//TODO it will be in every child JPanel so interface is to made
