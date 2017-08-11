@@ -13,7 +13,7 @@ import model.Const;
 
 public class Ball extends Drawable{
 
-	public static final int DIAMETER = 15000;
+	public static final int DIAMETER = 12000;
 	
 	private double vel_x;
 	private double vel_y;

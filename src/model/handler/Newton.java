@@ -119,7 +119,7 @@ public final class Newton {
 	//Checking if ball is in contact with any peg
 	private static boolean hasCollideWithPeg(){
 		boolean value = false;
-		for (Peg peg : gameBoard.getPegs()){
+		for (Peg peg : gameBoard.getCollidablePegs()){
 			//do some math...
 			double r = Ball.DIAMETER * 0.5;
 			double R = Peg.DIAMETER * 0.5;

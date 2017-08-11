@@ -11,9 +11,9 @@ import model.type.InputData;
 
 public class ActionHandler implements GameProcessor{
 
-	Ball ball;
+	private Ball ball;
 	
-	Engine parent;
+	private Engine parent;
 	
 	public ActionHandler(Engine par){
 		parent = par;
@@ -24,7 +24,7 @@ public class ActionHandler implements GameProcessor{
 	public void process() {
 		ball = Newton.nextStep(ball,parent.getGameBoard());
 		if (ball == null){
-			parent.changeState(GameState.Aiming);
+			parent.changeState(GameState.Score);
 		}
 	}	
 	

@@ -25,7 +25,7 @@ public class PegConfiguration {
 		pegs = new ArrayList<Peg>();
 		Random rnd = new Random();
 		for (int i=0; i<40; i++){
-			pegs.add(new Peg(rnd.nextInt(Const.BOARD_ENGINE_WIDTH),rnd.nextInt(Const.BOARD_ENGINE_HEIGHT)));
+			pegs.add(new Peg(rnd.nextInt(Const.BOARD_ENGINE_WIDTH - 2 * Peg.DIAMETER),rnd.nextInt(Const.BOARD_ENGINE_HEIGHT - 2 * Peg.DIAMETER)));
 		}
 	}
 	

@@ -7,7 +7,9 @@ package model;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 
 import model.drawable.Drawable;
@@ -25,6 +27,11 @@ import model.type.PegType;
 public class GameBoard {
 	
 	private List<Peg> pegs;
+	private int ballsLeft;
+	
+	private List<Integer> touchedPegsIndexes;
+	
+	private int score;
 	
 	//Default constructor generates basic peg grid
 	public GameBoard(){
@@ -35,13 +42,16 @@ public class GameBoard {
 	
 	public GameBoard(PegConfiguration pg){
 		pegs = pg.getPegs();
-		initializePegs();		
+		initializePegs();
+		touchedPegsIndexes = new ArrayList<Integer>();
 	}
 	
 	public List<Drawable> getDrawables(){
 		List<Drawable> value = new ArrayList<Drawable>();
 		for (Peg p : pegs){
-			value.add((Drawable)p);
+			if (p.getState() == PegState.Checked || p.getState() == PegState.Visible){
+				value.add((Drawable)p);			
+			}	
 		}
 		return value;
 	}
@@ -50,9 +60,32 @@ public class GameBoard {
 		return pegs;
 	}
 	
+	public List<Peg> getCollidablePegs(){
+		List<Peg> list = new ArrayList<Peg>();
+		
+		for (Peg p : pegs){
+			if ((p.getState() == PegState.Visible) || (p.getState() == PegState.Checked)){
+				list.add(p);
+			}
+		}		
+		return list;
+	}
+	
+	public Peg getLastTouchedPeg(){
+		if (touchedPegsIndexes.isEmpty()){
+			return null;
+		}else{
+			return pegs.get(touchedPegsIndexes.remove(0));			
+		}
+	}
+	
 	public void pegTouched(Peg peg){
-		int temp = pegs.indexOf(peg);
-		System.out.println("peg touched: " + temp);
+		int pegIndex = pegs.indexOf(peg);
+		//System.out.println("peg touched: " + temp);
+		//Indexed touched pegs and do stuff later
+		if (peg.getState() != PegState.Checked){
+			touchedPegsIndexes.add(pegIndex);	
+		}		
 		peg.setState(PegState.Checked);
 	}
 	
@@ -60,6 +93,7 @@ public class GameBoard {
 	private void initializePegs(){
 		for(Peg p:pegs){
 			p.setType(PegType.Blue);
+			p.setState(PegState.Visible);
 		}
 		Random rnd = new Random();
 		int pegCount = pegs.size();

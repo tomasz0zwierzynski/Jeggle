@@ -32,7 +32,8 @@ public class Peg extends Drawable{
 				this.color = Color.yellow;
 			}
 			break;
-		
+		case Unvisible:
+			//Blah blah
 		}
 	}
 
@@ -59,6 +60,10 @@ public class Peg extends Drawable{
 				this.color = Color.gray;
 				break;
 		}
+	}
+	
+	public String toString(){
+		return "Peg: " + this.pos_x + " , " + this.pos_y;
 	}
 	
 }

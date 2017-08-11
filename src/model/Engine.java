@@ -19,6 +19,7 @@ import model.drawable.PegConfiguration;
 import model.handler.ActionHandler;
 import model.handler.AimingHandler;
 import model.handler.GameProcessor;
+import model.handler.ScoringHandler;
 import model.listeners.GameLoopListener;
 import model.type.GameState;
 import model.type.InputData;
@@ -37,6 +38,7 @@ public class Engine implements ActionListener {
 	private int computeMultiplierCounter = 0;
 	private AimingHandler hAiming;
 	private ActionHandler hAction;
+	private ScoringHandler hScoring;
 	
 	private GameProcessor hCurrentHandler;	
 	private GameState currentState;
@@ -53,6 +55,7 @@ public class Engine implements ActionListener {
 		}catch(Exception ex){
 			System.out.println(ex.getMessage());
 		}
+		hScoring = new ScoringHandler(this);
 
 	}
 	
@@ -94,7 +97,7 @@ public class Engine implements ActionListener {
 		//Creating Scene with pegs (here loading from file or smth)
 		PegConfiguration level = new PegConfiguration();
 		gameBoard = new GameBoard(level);		
-		
+		hScoring.setGameBoard(gameBoard);
 		//Starting game timer to update and draw in loop
 		timer.start();
 		
@@ -131,6 +134,8 @@ public class Engine implements ActionListener {
 			return hAiming;
 		case Action:
 			return hAction;
+		case Score:
+			return hScoring;
 		default:
 			return null;
 		}
