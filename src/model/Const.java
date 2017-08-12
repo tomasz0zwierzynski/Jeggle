@@ -6,7 +6,7 @@
 package model;
 
 public final class Const {
-	public static final int GAME_DELAY_MS = 20;					//[ms]
+	public static final int GAME_DELAY_MS = 10;					//[ms]
 	public static final int COMPUTE_MULTIPLIER = 1;				//[1]
 	public static final int BOARD_ENGINE_WIDTH = 800000;		//[px]
 	public static final int BOARD_ENGINE_HEIGHT = 600000;		//[px]
