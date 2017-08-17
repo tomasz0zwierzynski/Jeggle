@@ -39,6 +39,7 @@ public class MainPanel extends JPanel{
 	public MainPanel(){
 		super();
 		this.setPreferredSize(new Dimension(800,600));
+		//this.setMinimumSize(new Dimension(800,600));
 		this.setBackground(Color.GREEN);
 		
 		BufferedImage cursorImg = new BufferedImage(16,16,BufferedImage.TYPE_INT_ARGB);

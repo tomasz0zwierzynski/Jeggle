@@ -107,10 +107,10 @@ public class Engine implements ActionListener {
 	
 	public List<Drawable> getDrawables(){
 		List<Drawable> value = new ArrayList<Drawable>();
-		for (Drawable d : hCurrentHandler.getDrawables()){
+		for (Drawable d : gameBoard.getDrawables()){
 			value.add(d);
 		}
-		for (Drawable d : gameBoard.getDrawables()){
+		for (Drawable d : hCurrentHandler.getDrawables()){
 			value.add(d);
 		}
 		return value;

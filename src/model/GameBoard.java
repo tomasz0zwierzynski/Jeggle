@@ -93,7 +93,7 @@ public class GameBoard {
 		}
 		Random rnd = new Random();
 		int pegCount = pegs.size();
-		for(int i=0; i<10; i++){
+		for(int i=0; i<Const.PEG_ORANGE_COUNT; i++){
 			int index;
 			do{
 				index = rnd.nextInt(pegCount);
