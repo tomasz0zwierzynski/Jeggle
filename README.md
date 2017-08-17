@@ -1,1 +1,3 @@
 # Jeggle
+
+Library: jre7
