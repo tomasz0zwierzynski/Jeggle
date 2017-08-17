@@ -1,3 +1,9 @@
+/**
+ * One of handlers that processing game at particular game state.
+ * This one tracks mouse position, draws proper aiming curve and passing shot position when click.
+ * It uses AimingAssistance methods to calculate proper angle of ball initial velocity. 
+ */
+
 package model.handler;
 
 import java.awt.Color;
@@ -24,7 +30,8 @@ public class AimingHandler implements GameProcessor {
 	
 	public AimingHandler(Engine par) throws Exception{
 		parent = par;
-		//Aiming Handler has to have a corresponding action handler.
+		//Aiming Handler has to have a corresponding action handler, because it has to create new ball
+		// and pass it further to ActionHandler
 		action = (ActionHandler) parent.getGameStateHandler(GameState.Action);
 		if (action==null){
 			throw new Exception("Cannot create AimingHandler while ActionHandler is not instantiated");
@@ -35,79 +42,40 @@ public class AimingHandler implements GameProcessor {
 	
 	@Override
 	public void process() {
-		// TODO Auto-generated method stub
-		
+		// In this case, nothing is here to be done.		
 	}
 
 	@Override
 	public void input(InputData id) {
 		
-		int x,y;
+		int x = id.getEngiX();
+		int y = id.getEngiY();
 		
 		switch (id.getMouseEventType()){
 		case Moved:
-			x = id.getEngiX();
-			y = id.getEngiY();
-	
 			aimDots.clear();
-	
 			//Current location pointer
-			AimDot ad = new AimDot(x,y);
-			ad.setColor(Color.MAGENTA);
-			aimDots.add(ad);
-		
+			prepareCursor(x,y);
+			
 			try {
 				double angle = AimingAssistance.calculateShootingAngle(x, y);// +90;
+				double mappedAngle = ScreenMetrics.map(angle, -130, +130, -1, +1);
+				
 				if (angle < 0){
-					double mappedAngle = ScreenMetrics.map(angle, -130, +130, -1, +1);
 					angle += 90;
 					int iInit = (int) (mappedAngle*Const.BOARD_ENGINE_HEIGHT/2);
 					int di = (int)(iInit/10);
 					for(int i=iInit;i<0;i-=di){
-												
-						double val = AimingAssistance.calculateParabole(angle, i); // i should be in math
-						Point mathXY = new Point(i,(int)val);
-						Point graphXY = AimingAssistance.toGraphicalFrame(mathXY);
-						
-						AimDot td = new AimDot(0,0);
-						td.setX(graphXY.x);
-						td.setY(graphXY.y);
-						td.setColor(Color.WHITE);
-						aimDots.add(td);
+						prepareAimingPoints(angle, i);
 					}
 				}else{
-					double mappedAngle = ScreenMetrics.map(angle, -130, +130, -1, +1);
 					angle += 90;
 					int iFinite = (int) (mappedAngle*Const.BOARD_ENGINE_HEIGHT/2);
 					int di = (int)(iFinite/10);
-					for(int i=0;i<iFinite;i+=di){
-												
-						double val = AimingAssistance.calculateParabole(angle, i); // i should be in math
-						Point mathXY = new Point(i,(int)val);
-						Point graphXY = AimingAssistance.toGraphicalFrame(mathXY);
-						
-						AimDot td = new AimDot(0,0);
-						td.setX(graphXY.x);
-						td.setY(graphXY.y);
-						td.setColor(Color.WHITE);
-						aimDots.add(td);
+					for(int i=0;i<iFinite;i+=di){					
+						prepareAimingPoints(angle, i);
 					}
 				}
-				
-				/*
-				for(int i=(int) -Const.X_SHOOTING_POINT;i<Const.BOARD_ENGINE_WIDTH/2;i=i+Const.BOARD_ENGINE_WIDTH/100){
-										
-					double val = AimingAssistance.calculateParabole(angle, i); // i should be in math
-					Point mathXY = new Point(i,(int)val);
-					Point graphXY = AimingAssistance.toGraphicalFrame(mathXY);
-					
-					AimDot td = new AimDot(0,0);
-					td.setX(graphXY.x);
-					td.setY(graphXY.y);
-					td.setColor(Color.WHITE);
-					aimDots.add(td);
-				}
-				*/
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -115,14 +83,10 @@ public class AimingHandler implements GameProcessor {
 			
 			break;
 		case Pressed:
-			//System.out.println("Pressed");
 			break;
 		case Released:
-			//System.out.println("Released");
 			break;
 		case Clicked:
-			x = id.getEngiX();
-			y = id.getEngiY();
 			//double angle = ScreenMetrics.map(arg, 0, Const.BOARD_ENGINE_WIDTH, -120, +120);			
 			double angle = 0;				
 			try {
@@ -139,6 +103,18 @@ public class AimingHandler implements GameProcessor {
 			break;
 		}	
 	}
+
+	private void prepareAimingPoints(double angle, int i) {
+		double val = AimingAssistance.calculateParabole(angle, i); // i should be in math
+		Point mathXY = new Point(i,(int)val);
+		Point graphXY = AimingAssistance.toGraphicalFrame(mathXY);
+		
+		AimDot td = new AimDot(0,0);
+		td.setX(graphXY.x);
+		td.setY(graphXY.y);
+		td.setColor(Color.WHITE);
+		aimDots.add(td);
+	}
 	
 	@Override
 	public List<Drawable> getDrawables() {
@@ -148,5 +124,10 @@ public class AimingHandler implements GameProcessor {
 		}
 		return value;
 	}
-
+	
+	private void prepareCursor(int x, int y){
+		AimDot ad = new AimDot(x,y);
+		ad.setColor(Color.MAGENTA);
+		aimDots.add(ad);
+	}	
 }

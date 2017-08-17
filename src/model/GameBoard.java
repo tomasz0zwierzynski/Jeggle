@@ -1,4 +1,4 @@
-/*
+/**
  * Class that represents game progress and changes. It is created when starting an level
  * and deleted when finishing level.
  */
@@ -18,11 +18,7 @@ import model.drawable.PegConfiguration;
 import model.type.PegState;
 import model.type.PegType;
 
-/**
- * 
- * @author Nails
- *
- */
+//TODO: implement some new gameplay, like score, levels, balls left etc.
 
 public class GameBoard {
 	

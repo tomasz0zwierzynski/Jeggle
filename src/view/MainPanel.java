@@ -13,10 +13,14 @@ package view;
  */
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 import javax.swing.*;
@@ -36,6 +40,11 @@ public class MainPanel extends JPanel{
 		super();
 		this.setPreferredSize(new Dimension(800,600));
 		this.setBackground(Color.GREEN);
+		
+		BufferedImage cursorImg = new BufferedImage(16,16,BufferedImage.TYPE_INT_ARGB);
+		Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0,0), "blank cursor");
+		
+		this.setCursor(blankCursor);
 	}
 	
 	//Function that draws everything right away

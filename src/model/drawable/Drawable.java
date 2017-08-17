@@ -1,12 +1,19 @@
+/**
+ * Class represents object that is seen by JPanels as object to draw
+ * 
+ */
+
 package model.drawable;
 
 import java.awt.Color;
+
+import model.type.DrawableType;
 
 public class Drawable {
 
 	//Drawable Type: 0 - circle; 1 - rectangle
 	//TODO: Add enum
-	private int drawableType;
+	private DrawableType drawableType;
 	
 	protected int pos_x;
 	protected int pos_y;
@@ -23,7 +30,7 @@ public class Drawable {
 		diameter = _diameter;
 		width = 0;
 		height = 0;
-		drawableType = 0;
+		drawableType = DrawableType.Circle;
 	}
 	
 	public Drawable(int _pos_x, int _pos_y, int _width, int _height){
@@ -32,10 +39,10 @@ public class Drawable {
 		diameter = 0;
 		width = _width;
 		height = _height;
-		drawableType = 1;
+		drawableType = DrawableType.Rectangle;
 	}
 	
-	public int getDrawableType(){
+	public DrawableType getDrawableType(){
 		return drawableType;
 	}
 	

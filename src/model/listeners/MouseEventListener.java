@@ -1,4 +1,11 @@
+/**
+ * Class that combines MouseMotion and Mouse listeners and implementing global input data passing it to engine
+ * 
+ */
+
 package model.listeners;
+
+//TODO: Change Dimension type to Point type in proper places
 
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;

@@ -1,4 +1,4 @@
-/*
+/**
  * Class that represents pegs positions on level.
  */
 
@@ -9,13 +9,6 @@ import java.util.List;
 import java.util.Random;
 
 import model.Const;
-
-/**
- * 
- * 
- * @author Nails
- *
- */
 
 public class PegConfiguration {
 	private List<Peg> pegs;

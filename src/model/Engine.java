@@ -1,11 +1,10 @@
-/*
+/**
  * Class that represents implements gameLoop()
  * 
  */
 
 package model;
 
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -24,14 +23,6 @@ import model.listeners.GameLoopListener;
 import model.type.GameState;
 import model.type.InputData;
 
-import view.ScreenMetrics;
-
-/**
- * 
- * @author Nails
- *
- */
-
 public class Engine implements ActionListener {
 
 	private Timer timer;
@@ -41,7 +32,6 @@ public class Engine implements ActionListener {
 	private ScoringHandler hScoring;
 	
 	private GameProcessor hCurrentHandler;	
-	private GameState currentState;
 	private GameBoard gameBoard;
 	
 	private List<GameLoopListener> graphicUpdaters = new ArrayList<GameLoopListener>();
@@ -102,7 +92,6 @@ public class Engine implements ActionListener {
 		timer.start();
 		
 		//Jumping into first state of game
-		currentState = GameState.Aiming;
 		hCurrentHandler = hAiming;
 	}
 	
@@ -113,7 +102,6 @@ public class Engine implements ActionListener {
 	*/
 	
 	public void changeState(GameState gs){
-		currentState = gs;
 		hCurrentHandler = handlerFromGameState(gs);		
 	}
 	

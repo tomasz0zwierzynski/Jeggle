@@ -1,3 +1,8 @@
+/**
+ * One of handlers that processing game at particular game state.
+ * This one is responsible for calculating next game step
+ */
+
 package model.handler;
 
 import java.util.ArrayList;
@@ -47,5 +52,4 @@ public class ActionHandler implements GameProcessor{
 		list.add((Drawable)ball);
 		return list;
 	}
-	
 }

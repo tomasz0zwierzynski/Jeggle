@@ -1,5 +1,5 @@
-/*
- * This class is living all the time and can handle ball movement.
+/**
+ * This class is has methods calculating physics of ball and pegs reflections
  */
 
 package model.handler;
@@ -153,10 +153,10 @@ public final class Newton {
 			ball.setX(0);
 			value = true;
 		}
-		if( ball.getX() > Const.BOARD_ENGINE_WIDTH - ball.DIAMETER ){
+		if( ball.getX() > Const.BOARD_ENGINE_WIDTH - Ball.DIAMETER ){
 			value = true;
 			//Set ball to boundry to ensure it will escape
-			ball.setX( Const.BOARD_ENGINE_WIDTH - ball.DIAMETER );
+			ball.setX( Const.BOARD_ENGINE_WIDTH - Ball.DIAMETER );
 		}		
 		return value;
 	}	
