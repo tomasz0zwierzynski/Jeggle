@@ -64,7 +64,6 @@ public final class Newton {
 		ball.setBall(new_x, new_y,new_Vx , new_Vy);
 	}
 	
-	//TODO: Have a loop for which angles bounce is fucked up and write special cases for it (where transformation is not needed)
 	private static void collision(){
 		//Geometry
 		double r = Ball.DIAMETER * 0.5;

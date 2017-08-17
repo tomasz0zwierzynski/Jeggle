@@ -61,6 +61,11 @@ public class AimingHandler implements GameProcessor {
 				double angle = AimingAssistance.calculateShootingAngle(x, y);// +90;
 				double mappedAngle = ScreenMetrics.map(angle, -130, +130, -1, +1);
 				
+				if (angle == 0){
+					prepareAimingLine();
+					break;
+				}
+				
 				if (angle < 0){
 					angle += 90;
 					int iInit = (int) (mappedAngle*Const.BOARD_ENGINE_HEIGHT/2);
@@ -102,6 +107,18 @@ public class AimingHandler implements GameProcessor {
 		
 			break;
 		}	
+	}
+
+	private void prepareAimingLine() {
+		int cX = (int) Const.X_SHOOTING_POINT;
+		int offset = (int) Const.Y_SHOOTING_POINT;
+		int di = (int) (Const.BOARD_ENGINE_HEIGHT/40);
+		int max = (int) (Const.BOARD_ENGINE_HEIGHT/4);
+		for (int i=0;i<=max;i+=di){
+			AimDot ad = new AimDot(cX,i+offset);
+			ad.setColor(Color.WHITE);
+			aimDots.add(ad);
+		}
 	}
 
 	private void prepareAimingPoints(double angle, int i) {

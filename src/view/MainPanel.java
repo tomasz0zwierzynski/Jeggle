@@ -75,8 +75,7 @@ public class MainPanel extends JPanel{
 	}
 	
 	//TODO it will be in every child JPanel so interface is to made
-	public void updateGraphicalContent(Engine en){
-		//b = en.getBall();		
+	public void updateGraphicalContent(Engine en){	
 		toDraw = en.getDrawables();
 		repaint();			
 	}

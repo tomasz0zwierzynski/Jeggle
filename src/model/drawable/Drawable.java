@@ -11,8 +11,6 @@ import model.type.DrawableType;
 
 public class Drawable {
 
-	//Drawable Type: 0 - circle; 1 - rectangle
-	//TODO: Add enum
 	private DrawableType drawableType;
 	
 	protected int pos_x;
@@ -23,6 +21,8 @@ public class Drawable {
 	protected int height;
 	
 	protected Color color;
+	//proteceted BufferedImage 
+	
 	
 	public Drawable(int _pos_x, int _pos_y, int _diameter){
 		pos_x = _pos_x;
