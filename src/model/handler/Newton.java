@@ -4,10 +4,13 @@
 
 package model.handler;
 
+import java.awt.Point;
+
 import model.Const;
 import model.GameBoard;
 import model.drawable.Ball;
 import model.drawable.Peg;
+import model.drawable.PegConfiguration;
 
 public final class Newton {
 		
@@ -118,7 +121,11 @@ public final class Newton {
 	//Checking if ball is in contact with any peg
 	private static boolean hasCollideWithPeg(){
 		boolean value = false;
-		for (Peg peg : gameBoard.getCollidablePegs()){
+		
+		Point ballPosition = new Point( (ball.getX() + Ball.DIAMETER / 2),ball.getY() + Ball.DIAMETER / 2 );
+		int block = PegConfiguration.calculateBlockByPosition(ballPosition);
+		
+		for (Peg peg : gameBoard.getCollidablePegsInBlock(block)){
 			//do some math...
 			double r = Ball.DIAMETER * 0.5;
 			double R = Peg.DIAMETER * 0.5;

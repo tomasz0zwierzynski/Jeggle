@@ -56,7 +56,6 @@ public class Engine implements ActionListener {
 	}
 		
 	private void gameLoop(){
-		//System.out.println("Update();");
 		update();
 		if ((computeMultiplierCounter++ % Const.COMPUTE_MULTIPLIER) == 0){
 			//System.out.println("Redraw();");
@@ -84,7 +83,6 @@ public class Engine implements ActionListener {
 	
 	//Method called when gameLoop has to start.
 	public void start(){
-		//Creating Scene with pegs (here loading from file or smth)
 		PegConfiguration level = new PegConfiguration();
 		gameBoard = new GameBoard(level);		
 		hScoring.setGameBoard(gameBoard);

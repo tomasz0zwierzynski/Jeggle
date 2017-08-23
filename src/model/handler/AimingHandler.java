@@ -16,6 +16,7 @@ import model.Engine;
 import model.drawable.AimDot;
 import model.drawable.Ball;
 import model.drawable.Drawable;
+import model.drawable.PegConfiguration;
 import model.type.GameState;
 import model.type.InputData;
 
