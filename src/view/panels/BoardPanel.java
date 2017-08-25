@@ -3,7 +3,7 @@
  * 
  */
 
-package view;
+package view.panels;
 
 /**
  * This class should take care about giving drawing tasks further to child JPanels
@@ -16,47 +16,95 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.LayoutManager;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
+
+import view.ScreenMetrics;
 
 import model.*;
 import model.drawable.Ball;
 import model.drawable.Drawable;
 
 @SuppressWarnings("serial")
-public class MainPanel extends JPanel{
+public class BoardPanel extends JPanel{
 
 	//For example this component only take care about square so:
 	Ball b;	
+	List<Drawable> toErese;
 	List<Drawable> toDraw;
 	
-	public MainPanel(){
+	Dimension panelSize;
+	
+	/***
+	//Backgrounding
+	Image background;
+	Image scaled;
+	boolean refresh = false;
+	 */
+	
+	public BoardPanel(){
 		super();
 		this.setPreferredSize(new Dimension(800,600));
-		//this.setMinimumSize(new Dimension(800,600));
 		this.setBackground(Color.GREEN);
 		
+		//Turning off mouse cursor
 		BufferedImage cursorImg = new BufferedImage(16,16,BufferedImage.TYPE_INT_ARGB);
 		Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0,0), "blank cursor");
-		
 		this.setCursor(blankCursor);
+		
+		//Prepare size change listener
+		this.addComponentListener(new ComponentAdapter(){
+			public void componentResized(ComponentEvent e){
+				panelSize = e.getComponent().getSize();
+			}
+		});	
+		
+		//TODO:Think more about backgrounding
+		/***
+		//Preparing Background Image
+		try{
+		background = new ImageIcon("C://Documents and Settings//Nails//Eclipse_workspace//JegglePrototype//background.jpg").getImage();
+		scaled = background.getScaledInstance(800, 600, Image.SCALE_DEFAULT);
+		refresh = true;
+		}catch(Exception ex){
+			System.out.println("File error.");
+			background = null;
+		}
+		
+		//Adding resizable controller
+		this.addComponentListener(new ComponentAdapter(){
+			public void componentResized(ComponentEvent e){
+				scaled = background.getScaledInstance(e.getComponent().getWidth(), e.getComponent().getHeight(), Image.SCALE_FAST);
+				refresh = true;
+			}
+		});
+		*/
+		
 	}
 	
 	//Function that draws everything right away
 	public void paintComponent(Graphics g){
-		Dimension dim = this.getSize();
+		/***
+		if (refresh){
+			//Image scaled = background.getScaledInstance((int)dim.getWidth(), (int)dim.getHeight(), Image.SCALE_DEFAULT);
+			g.drawImage(scaled,0,0,this);
+			refresh = false;
+		}*/
 		
-		g.setColor(getBackground());
-		g.fillRect(0, 0, (int)dim.getWidth(), (int)dim.getHeight());
-		
-		g.setColor(Color.cyan);
-		
+		g.setColor(Color.green);		
+		g.fillRect(0, 0, (int)panelSize.getWidth(), (int)panelSize.getHeight());
+				
 		try{
 		for (Drawable d : toDraw){
 			try{
@@ -86,10 +134,8 @@ public class MainPanel extends JPanel{
 			g.drawLine(0, m, b, m);
 		}
 		*/
-		
 	}
 	
-	//TODO it will be in every child JPanel so interface is to made
 	public void updateGraphicalContent(Engine en){	
 		toDraw = en.getDrawables();
 		repaint();			

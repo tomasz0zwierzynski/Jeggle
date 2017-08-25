@@ -38,7 +38,7 @@ public class PegConfiguration {
 	public List<Peg> getPegsIn(int block){
 		List<Peg> value = new ArrayList<Peg>();
 		
-		if (block < BLOCKS){
+		if ((block < BLOCKS)&&(block >= 0)){
 			value = mappedPegs.get(blocks[block]);		
 		}
 		return value;

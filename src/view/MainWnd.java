@@ -13,14 +13,23 @@ package view;
  *
  */
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.LayoutManager;
 
 import javax.swing.*;
+
+import view.panels.BallsPanel;
+import view.panels.BoardPanel;
+import view.panels.FeverPanel;
+import view.panels.LeftPanel;
+import view.panels.RightPanel;
+import view.panels.ScorePanel;
 
 import model.*;
 import model.listeners.GameLoopListener;
@@ -29,7 +38,12 @@ import model.listeners.MouseEventListener;
 @SuppressWarnings("serial")
 public class MainWnd extends JFrame implements GameLoopListener{
 		
-	private MainPanel mainPanel;
+	private BoardPanel boardPanel;
+	private BallsPanel ballsPanel;
+	private FeverPanel feverPanel;
+	private ScorePanel scorePanel;
+	private LeftPanel leftPanel;
+	private RightPanel rightPanel;
 	private MouseEventListener mListener;
 
 	//Engine object containing informations about stuff to draw.
@@ -50,7 +64,7 @@ public class MainWnd extends JFrame implements GameLoopListener{
 	
 	//Function called to repaint graphic component
 	public void redraw(){
-		mainPanel.updateGraphicalContent(engine);
+		boardPanel.updateGraphicalContent(engine);
 	}
 	
 	private void setupUI(){
@@ -64,68 +78,66 @@ public class MainWnd extends JFrame implements GameLoopListener{
 		
 		//Filling with different stuff
 		
-		JPanel jp1 = new JPanel();
-		jp1.setBackground(Color.BLUE);
-		//jp1.setPreferredSize(new Dimension(50,50));
+		rightPanel = new RightPanel();
+		rightPanel.add(new JButton("RIGHT"));
 		c.fill = GridBagConstraints.NONE;
 		c.weightx = 0;
 		c.weighty = 0;
 		c.gridx = 0;
 		c.gridy = 0;
-		pane.add(jp1,c);
+		pane.add(rightPanel,c);
 		
-		JPanel jp2 = new JPanel();
-		jp2.setBackground(Color.BLACK);
-		//jp2.setPreferredSize(new Dimension(50,50));
-		c.fill = GridBagConstraints.NONE;
+		scorePanel = new ScorePanel();
+		scorePanel.add(new JLabel("score..."));
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0;
 		c.weighty = 0;
 		c.gridx = 1;
 		c.gridy = 0;
-		pane.add(jp2,c);
+		pane.add(scorePanel,c);
 		
-		JPanel jp3 = new JPanel();
-		jp3.setBackground(Color.GRAY);
-		c.fill = GridBagConstraints.NONE;
+		feverPanel = new FeverPanel();
+		feverPanel.add(new JLabel("fever..."));
+		c.fill = GridBagConstraints.VERTICAL;
 		c.weightx = 0;
 		c.weighty = 0;
 		c.gridx = 0;
 		c.gridy = 1;
-		pane.add(jp3,c);
+		pane.add(feverPanel,c);
 		
-		mainPanel = new MainPanel();
+		boardPanel = new BoardPanel();
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.weighty = 1;
 		c.gridx = 1;
 		c.gridy = 1;
-		pane.add(mainPanel,c);
+		pane.add(boardPanel,c);		
 		
-		JPanel jp5 = new JPanel();
-		jp5.setBackground(Color.DARK_GRAY);
+		leftPanel = new LeftPanel();
+		leftPanel.add(new JButton("LEFT"));
 		c.fill = GridBagConstraints.NONE;
 		c.weightx = 0;
 		c.weighty = 0;
 		c.gridx = 2;
 		c.gridy = 0;
-		pane.add(jp5,c);
+		pane.add(leftPanel,c);
 		
-		JPanel jp6 = new JPanel();
-		jp6.setBackground(Color.MAGENTA);
-		c.fill = GridBagConstraints.NONE;
+		ballsPanel = new BallsPanel();
+		ballsPanel.add(new JLabel("balls..."));
+		c.fill = GridBagConstraints.VERTICAL;
 		c.weightx = 0;
 		c.weighty = 0;
 		c.gridx = 2;
 		c.gridy = 1;
-		pane.add(jp6,c);
+		pane.add(ballsPanel,c);
 		
 	}
 	
 	private void setupMouse(Engine en){
 		engine = en;
-		mListener = new MouseEventListener(engine,mainPanel);
-		mainPanel.addMouseListener(mListener);
-		mainPanel.addMouseMotionListener(mListener);
+		mListener = new MouseEventListener(engine,boardPanel);
+		boardPanel.addMouseListener(mListener);
+		boardPanel.addMouseMotionListener(mListener);
 	}
 	
 	//Function comes from GameLoopListener interface, called when Engine updated state of the game.
