@@ -16,7 +16,6 @@ import model.Engine;
 import model.drawable.AimDot;
 import model.drawable.Ball;
 import model.drawable.Drawable;
-import model.drawable.PegConfiguration;
 import model.type.GameState;
 import model.type.InputData;
 
@@ -101,6 +100,8 @@ public class AimingHandler implements GameProcessor {
 				e.printStackTrace();
 			}
 			Ball nextBall = new Ball( (int)(Const.X_SHOOTING_POINT-(Ball.DIAMETER/2)), (int)(Const.Y_SHOOTING_POINT-(Ball.DIAMETER/2)), angle);
+			parent.getGameBoard().decreaseBalls();
+			parent.setSideValueChanged();
 			action.nextBall(nextBall);
 			parent.changeState(GameState.Action);
 			break;

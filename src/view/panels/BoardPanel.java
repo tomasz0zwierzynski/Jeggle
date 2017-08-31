@@ -37,7 +37,7 @@ import model.drawable.Ball;
 import model.drawable.Drawable;
 
 @SuppressWarnings("serial")
-public class BoardPanel extends JPanel{
+public class BoardPanel extends JPanel implements GraphicalUpdater{
 
 	//For example this component only take care about square so:
 	Ball b;	
@@ -120,22 +120,9 @@ public class BoardPanel extends JPanel{
 		}catch(Exception ex){
 			System.out.println("Exception cought ;)");
 		}
-		
-		/* Some ugly testing code, ignore it or delete if you cannot stand it
-		g.setColor(Color.BLACK);
-		for (int i=0; i<8; i++){
-			int m = (int) ScreenMetrics.map(i*100000, 0, 800000, 0, dim.getWidth());
-			int b = (int) ScreenMetrics.map(600000, 0, 800000, 0, dim.getWidth());
-			g.drawLine(m, 0, m, b);
-		}
-		for (int j=0;j<6;j++){
-			int m = (int) ScreenMetrics.map(j*100000, 0, 600000, 0, dim.getHeight());
-			int b = (int) ScreenMetrics.map(600000, 0, 600000, 0, dim.getHeight());
-			g.drawLine(0, m, b, m);
-		}
-		*/
 	}
 	
+	@Override
 	public void updateGraphicalContent(Engine en){	
 		toDraw = en.getDrawables();
 		repaint();			

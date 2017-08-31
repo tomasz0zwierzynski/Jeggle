@@ -5,11 +5,8 @@
 
 package model;
 
-import java.awt.Color;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Random;
 
 import model.drawable.Drawable;
@@ -24,22 +21,27 @@ public class GameBoard {
 	
 	//private List<Peg> pegs;
 	private PegConfiguration pegsConfiguration;
-	private int ballsLeft;
+	private int ballsLeft = 0;
+	private int pegsLeft;
+	private int orangePegsLeft;
 	
 	private List<Integer> touchedPegsIndexes;
 	
-	private int score;
+	private int score = 0;
+	private int shotScore = 0;
 	
 	//Default constructor generates basic peg grid
 	public GameBoard(){
-		pegsConfiguration = new PegConfiguration();
-		initializePegs();
+		init();
 	}
 	
-	public GameBoard(PegConfiguration pg){
-		pegsConfiguration = pg;
+	private void init(){
+		pegsConfiguration = new PegConfiguration();
 		initializePegs();
 		touchedPegsIndexes = new ArrayList<Integer>();
+		pegsLeft = pegsConfiguration.getAllPegs().size();
+		orangePegsLeft = pegsConfiguration.getOrangePegs().size();
+		ballsLeft += 10;
 	}
 	
 	public List<Drawable> getDrawables(){
@@ -90,7 +92,12 @@ public class GameBoard {
 		int pegIndex = pegsConfiguration.getAllPegs().indexOf(peg);
 		//Indexed touched pegs and do stuff later
 		if (peg.getState() != PegState.Checked){
-			touchedPegsIndexes.add(pegIndex);	
+			touchedPegsIndexes.add(pegIndex);
+			pegsLeft--;
+			if (peg.getType() == PegType.Orange)
+			{
+				orangePegsLeft--;
+			}
 		}		
 		peg.setState(PegState.Checked);
 	}
@@ -115,17 +122,45 @@ public class GameBoard {
 		}
 	}
 	
-	/*
-	private void generateGrid(int rows, int columns){
-		int x_interval = (int) ((double) Const.BOARD_ENGINE_WIDTH / (double) columns);
-		int y_interval = (int) ((double) Const.BOARD_ENGINE_HEIGHT / (double) rows);
-		for (int i=0; i<rows; i++){
-			for (int j=0; j<columns; j++){
-				Peg adder = new Peg(x_interval * (j+1), y_interval * (i+1));
-				adder.setColor(Color.blue);
-				pegs.add(adder);
-			}
-		}
+	public void nextLevel(){
+		pegsConfiguration = null;
+		touchedPegsIndexes = null;
+		init();
 	}
-	*/
+	
+	public int getPegsLeft(){
+		return pegsLeft;
+	}
+	
+	public int getOrangePegsLeft(){
+		return orangePegsLeft;
+	}
+	
+	public void decreaseBalls(){
+		ballsLeft--;
+	}
+	
+	public int getBallsLeft(){
+		return ballsLeft;
+	}
+	
+	public void increaseBalls(){
+		ballsLeft++;
+	}
+	
+	public int getScore(){
+		return score;
+	}
+	
+	public void addScore(int add){
+		score = score + add;
+	}
+	
+	public void setShotScore(int score){
+		shotScore = score;
+	}
+	
+	public int getShotScore(){
+		return shotScore;
+	}
 }

@@ -3,7 +3,6 @@ package model.handler;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Const;
 import model.Engine;
 import model.GameBoard;
 import model.drawable.Drawable;
@@ -20,6 +19,9 @@ public class ScoringHandler implements GameProcessor{
 	
 	private int staticCounter = 0;
 	
+	private int pegsMultiplier = 0;
+	private int totalValue = 0;
+	
 	public ScoringHandler(Engine par){
 		parent = par;
 	}
@@ -32,16 +34,28 @@ public class ScoringHandler implements GameProcessor{
 
 			if(peg == null){
 				parent.changeState(GameState.Aiming);
+				parent.getGameBoard().addScore(totalValue*pegsMultiplier);
+				parent.setSideValueChanged();
+				pegsMultiplier = 0;
+				totalValue = 0;
+				gameBoard.setShotScore(0);
+				if (gameBoard.getOrangePegsLeft() == 0){
+					gameBoard.nextLevel();
+				}
 				return;
 			}
 		
+			pegsMultiplier++;
 			if (peg.getType() == PegType.Blue){
-				//blah blah
+				totalValue+=10;
 			}else if(peg.getType() == PegType.Orange){
-				//blah blah
+				totalValue+=100;
 			}
+			gameBoard.setShotScore(totalValue*pegsMultiplier);
+			parent.setSideValueChanged();
 			peg.setState(PegState.Unvisible);
 		}
+		
 	}
 
 	@Override

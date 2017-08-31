@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 import model.Const;
+import model.type.PegType;
 
 public class PegConfiguration {
 	private static int BLOCKS = 48;
@@ -32,7 +33,6 @@ public class PegConfiguration {
 		}
 		assignPegsToBlocks();
 		
-				//System.out.println(toString()); debugging
 	}
 	
 	public List<Peg> getPegsIn(int block){
@@ -41,6 +41,17 @@ public class PegConfiguration {
 		if ((block < BLOCKS)&&(block >= 0)){
 			value = mappedPegs.get(blocks[block]);		
 		}
+		return value;
+	}
+	
+	public List<Peg> getOrangePegs(){
+		List<Peg> value = new ArrayList<Peg>();
+		for (Peg p : pegs){
+			if (p.getType() == PegType.Orange){
+				value.add(p);
+			}
+		}
+		
 		return value;
 	}
 	
@@ -129,9 +140,4 @@ public class PegConfiguration {
 		return value;
 	}
 	
-	/*
-	public List<Peg> getPegs(){
-		return pegs;
-	}
-	*/
 }

@@ -21,12 +21,15 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.LayoutManager;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 
 import view.panels.BallsPanel;
 import view.panels.BoardPanel;
 import view.panels.FeverPanel;
+import view.panels.GraphicalUpdater;
 import view.panels.LeftPanel;
 import view.panels.RightPanel;
 import view.panels.ScorePanel;
@@ -46,6 +49,8 @@ public class MainWnd extends JFrame implements GameLoopListener{
 	private RightPanel rightPanel;
 	private MouseEventListener mListener;
 
+	private List<GraphicalUpdater> panels = new ArrayList<GraphicalUpdater>();
+	
 	//Engine object containing informations about stuff to draw.
 	private Engine engine;
 	
@@ -63,8 +68,18 @@ public class MainWnd extends JFrame implements GameLoopListener{
 	}
 	
 	//Function called to repaint graphic component
-	public void redraw(){
-		boardPanel.updateGraphicalContent(engine);
+	public void redraw(){	
+			boardPanel.updateGraphicalContent(engine);
+			if (engine.isRedrawSideNeeded()){
+				redrawSide();
+				engine.clearSideValueChanged();
+			}
+	}
+	
+	public void redrawSide(){
+		for (GraphicalUpdater gu : panels){
+			gu.updateGraphicalContent(engine);
+		}
 	}
 	
 	private void setupUI(){
@@ -86,6 +101,7 @@ public class MainWnd extends JFrame implements GameLoopListener{
 		c.gridx = 0;
 		c.gridy = 0;
 		pane.add(rightPanel,c);
+		panels.add(rightPanel);
 		
 		scorePanel = new ScorePanel();
 		scorePanel.add(new JLabel("score..."));
@@ -95,6 +111,7 @@ public class MainWnd extends JFrame implements GameLoopListener{
 		c.gridx = 1;
 		c.gridy = 0;
 		pane.add(scorePanel,c);
+		panels.add(scorePanel);
 		
 		feverPanel = new FeverPanel();
 		feverPanel.add(new JLabel("fever..."));
@@ -104,6 +121,7 @@ public class MainWnd extends JFrame implements GameLoopListener{
 		c.gridx = 0;
 		c.gridy = 1;
 		pane.add(feverPanel,c);
+		panels.add(feverPanel);
 		
 		boardPanel = new BoardPanel();
 		c.fill = GridBagConstraints.BOTH;
@@ -121,15 +139,16 @@ public class MainWnd extends JFrame implements GameLoopListener{
 		c.gridx = 2;
 		c.gridy = 0;
 		pane.add(leftPanel,c);
+		panels.add(leftPanel);
 		
 		ballsPanel = new BallsPanel();
-		ballsPanel.add(new JLabel("balls..."));
 		c.fill = GridBagConstraints.VERTICAL;
 		c.weightx = 0;
 		c.weighty = 0;
 		c.gridx = 2;
 		c.gridy = 1;
 		pane.add(ballsPanel,c);
+		panels.add(ballsPanel);
 		
 	}
 	

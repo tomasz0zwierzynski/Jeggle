@@ -34,6 +34,8 @@ public class Engine implements ActionListener {
 	private GameProcessor hCurrentHandler;	
 	private GameBoard gameBoard;
 	
+	private boolean sideValueChanged = true;
+	
 	private List<GameLoopListener> graphicUpdaters = new ArrayList<GameLoopListener>();
 		
 	public Engine(){
@@ -58,7 +60,6 @@ public class Engine implements ActionListener {
 	private void gameLoop(){
 		update();
 		if ((computeMultiplierCounter++ % Const.COMPUTE_MULTIPLIER) == 0){
-			//System.out.println("Redraw();");
 			redraw();
 		}
 	}
@@ -83,8 +84,7 @@ public class Engine implements ActionListener {
 	
 	//Method called when gameLoop has to start.
 	public void start(){
-		PegConfiguration level = new PegConfiguration();
-		gameBoard = new GameBoard(level);		
+		gameBoard = new GameBoard();		
 		hScoring.setGameBoard(gameBoard);
 		//Starting game timer to update and draw in loop
 		timer.start();
@@ -92,12 +92,6 @@ public class Engine implements ActionListener {
 		//Jumping into first state of game
 		hCurrentHandler = hAiming;
 	}
-	
-	/*
-	public void ballFellDown(){
-		currentState = GameState.Aiming;
-	}
-	*/
 	
 	public void changeState(GameState gs){
 		hCurrentHandler = handlerFromGameState(gs);		
@@ -136,9 +130,22 @@ public class Engine implements ActionListener {
 		return gameBoard;
 	}
 	
-	//TEMP
+	public boolean isRedrawSideNeeded()
+	{
+		return sideValueChanged;
+	}
+	
+	public void setSideValueChanged(){
+		sideValueChanged = true;
+	}
+	
+	public void clearSideValueChanged(){
+		sideValueChanged = false;
+	}
+	
+	/*/TEMP
 	public Ball getBall(){
 		return hAction.getBall();
 	}
-	
+	*/
 }
